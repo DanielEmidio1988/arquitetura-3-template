@@ -1,4 +1,5 @@
 import { ProductDatabase } from "../database/ProductDatabase"
+import { ProductDTO, ProductInputDTO } from "../dtos/ProductDTO"
 import { BadRequestError } from "../errors/BadRequestError"
 import { NotFoundError } from "../errors/NotFoundError"
 import { Product } from "../models/Product"
@@ -21,20 +22,20 @@ export class ProductBusiness {
         return products
     }
 
-    public createProduct = async (input: any) => {
+    public createProduct = async (input: ProductInputDTO) => {
         const { id, name, price } = input
 
-        if (typeof id !== "string") {
-            throw new BadRequestError("'id' deve ser string")
-        }
+        // if (typeof id !== "string") {
+        //     throw new BadRequestError("'id' deve ser string")
+        // }
 
-        if (typeof name !== "string") {
-            throw new BadRequestError("'name' deve ser string")
-        }
+        // if (typeof name !== "string") {
+        //     throw new BadRequestError("'name' deve ser string")
+        // }
 
-        if (typeof price !== "number") {
-            throw new BadRequestError("'price' deve ser number")
-        }
+        // if (typeof price !== "number") {
+        //     throw new BadRequestError("'price' deve ser number")
+        // }
 
         if (name.length < 2) {
             throw new BadRequestError("'name' deve possuir pelo menos 2 caracteres")
@@ -67,10 +68,13 @@ export class ProductBusiness {
 
         await productDatabase.insertProduct(newProductDB)
 
-        const output = {
-            message: "Produto registrado com sucesso",
-            product: newProduct
-        }
+        // const output = {
+        //     message: "Produto registrado com sucesso",
+        //     product: newProduct
+        // }
+
+        const productDTO = new ProductDTO()
+        const output = productDTO.createProductOutputDTO(newProduct)
 
         return output
     }

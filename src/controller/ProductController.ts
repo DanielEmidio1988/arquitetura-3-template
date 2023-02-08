@@ -1,5 +1,6 @@
 import { Request, Response } from "express"
 import { ProductBusiness } from "../business/ProductBusiness"
+import { ProductDTO } from "../dtos/ProductDTO"
 import { BaseError } from "../errors/BaseError"
 
 export class ProductController {
@@ -27,14 +28,17 @@ export class ProductController {
     public createProduct = async (req: Request, res: Response) => {
         try {
 
-            const input = {
-                id: req.body.id,
-                name: req.body.name,
-                price: req.body.price
-            }
+            // const input = {
+            //     id: req.body.id,
+            //     name: req.body.name,
+            //     price: req.body.price
+            // }
 
-            const productBusiness = new ProductBusiness()
-            const output = await productBusiness.createProduct(input)
+            const productDTO = new ProductDTO()
+            const input = productDTO.createProductInputDTO(req.body.id, req.body.name, req.body.price)
+
+            const producBusiness = new ProductBusiness()
+            const output = await producBusiness.createProduct(input)
 
             res.status(201).send(output)
         } catch (error) {
